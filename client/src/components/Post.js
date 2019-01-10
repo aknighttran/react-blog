@@ -1,7 +1,8 @@
 import React from 'react'
 import axios from 'axios'
+import { Link, } from 'react-router-dom';
 import PostForm from './PostForm'
-import { Header, Button, Icon, Grid, Divider, Card } from 'semantic-ui-react'
+import { Header, Button, Icon, Grid, Divider, Container, Segment } from 'semantic-ui-react'
 
 class Post extends React.Component {
   state = { blog: {}, post: {}, showForm: false }
@@ -50,7 +51,7 @@ class Post extends React.Component {
   }
 
   render() {
-    const { post: {name, description, body, date, blog_id, id}, edit } = this.state
+    const { post: {name, description, body, date, blog_id, id}, blog: {title}, edit } = this.state
     return (
       <div>
         <Header style={{'fontSize': '50px'}} textAlign='center'>{ name }</Header>
@@ -74,16 +75,29 @@ class Post extends React.Component {
             </Button>
             </Grid.Column>
             <Grid.Column style={{'textAlign': 'center'}} as='h3'>
-              {description}
+              {description} - {date}
             </Grid.Column>
           </Grid.Row>
         </Grid>
         {edit ? this.editPost() : null}
         <Divider />
-        < br />
-        <Card.Group itemsPerRow={3}>
-          { body }
-        </Card.Group>
+        <Button 
+          as={Link}
+          to={`/blogs/${blog_id}`}
+          color="black" 
+          size="mini"
+        >
+          Return to {title}
+        </Button>
+        <Segment>
+        <Container fluid>
+          <Header>{description}</Header>
+          <p textAlign='justified'>{body}</p>
+        </Container>
+        </Segment>
+        <br />
+        <br />
+        <br />
       </div>
     )
   }
